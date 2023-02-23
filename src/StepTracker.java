@@ -5,6 +5,7 @@ public class StepTracker {
     Scanner scanner;
     Converter converter = new Converter();
     int goalByStepsPerDay = 10000;
+
     StepTracker(Scanner scan) {
         scanner = scan;
 
@@ -14,30 +15,20 @@ public class StepTracker {
     }
 
     void addNewNumberStepsPerDay() {
-        System.out.println("Введите номер месяца от 1 до 12:");
-        int month = scanner.nextInt();
-        if (month < 1 || month > 12) {
-            System.out.println("Такого месяца не существует.");
+        int month = getMonth(scanner);
+        int day = getMonth(scanner);
+        int steps = getSteps(scanner);
+        if (month == 0 || day == 0 || steps == 0) {
+            System.out.println("Ошибка ввода данных");
             return;
         }
-        System.out.println("Введите день:");
-        int day = scanner.nextInt();
-        if (day < 1 || day > 30) {
-            System.out.println("Такого дня не существует.");
-            return;
-        }
-        System.out.println("Введите число шагов:");
-        int steps = scanner.nextInt();
-        if (steps < 1) {
-            System.out.println("Нельзя ходить под себя.");
-            return;
-        }
+
         MonthData monthData = monthToData[month - 1];
         monthData.days[day - 1] = steps;
     }
 
     void changeStepGoal() {
-        System.out.println("Введите целевое колличество шагов в день:");
+        System.out.println("Введите целевое количество шагов в день:");
         int goalSteps = scanner.nextInt();
         if (goalSteps < 0) {
             System.out.println("Шаги будут считаться, даже при ходьбе назад.");
@@ -64,5 +55,35 @@ public class StepTracker {
         System.out.println("Вы прошли: " + converter.convertToKm(sumSteps) + " км");
         System.out.println("Вы сожгли: " + converter.convertStepsToKilocalories(sumSteps) + " ккал");
         System.out.println("Лучшая серия: " + monthToData[month - 1].bestSeries(goalByStepsPerDay) + " дней");
+    }
+
+    int getMonth(Scanner scanner) {
+        System.out.println("Введите номер месяца от 1 до 12:");
+        int month = scanner.nextInt();
+        if (month < 1 || month > 12) {
+            System.out.println("Такого месяца не существует.");
+            return 0;
+        }
+        return month;
+    }
+
+    int getDay(Scanner scanner) {
+        System.out.println("Введите день:");
+        int day = scanner.nextInt();
+        if (day < 1 || day > 31) {
+            System.out.println("Такого дня не существует.");
+            return 0;
+        }
+        return day;
+    }
+
+    int getSteps(Scanner scanner) {
+        System.out.println("Введите число шагов:");
+        int steps = scanner.nextInt();
+        if (steps < 1) {
+            System.out.println("Нельзя ходить под себя.");
+            return 0;
+        }
+        return steps;
     }
 }
