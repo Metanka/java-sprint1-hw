@@ -6,18 +6,23 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         StepTracker stepTracker = new StepTracker(scanner);
         while (true) {
-            // приткнула для закрытия цикла. Если выносить все в метод processingCommand, то return останавливает метод, а не цикл
-            int command = 0;
             printMenu();
-            try {
-                command = processingCommand(scanner, stepTracker);
-                if (command == 4) {
-                    return;
-                }
-            } catch (Exception e) {
-                System.out.println("Можно вводить только числа.");
-                System.out.println(e.getMessage());
+            int command = scanUserInputSafely(scanner);
+            if (command == 1) {
+                stepTracker.addNewNumberStepsPerDay();
+            } else if (command == 2) {
+                stepTracker.changeStepGoal();
+            } else if (command == 3) {
+                stepTracker.printStatistic();
+            } else if (command == 4) {
+                scanner.close();
+                System.out.println("Выход");
+                return;
+            } else {
+                System.out.println("Такой команды не существует.");
             }
+
+
         }
     }
 
@@ -29,25 +34,12 @@ public class Main {
         System.out.println("4 - Выход");
     }
 
-    static int processingCommand(Scanner scanner, StepTracker stepTracker) {
-        int command = scanner.nextInt();
-
-        if (command == 1) {
-            stepTracker.addNewNumberStepsPerDay();
-            return command;
-        } else if (command == 2) {
-            stepTracker.changeStepGoal();
-            return command;
-        } else if (command == 3) {
-            stepTracker.printStatistic();
-            return command;
-        } else if (command == 4) {
-            scanner.close();
-            System.out.println("Выход");
-            return command;
-        } else {
-            System.out.println("Такой команды не существует.");
-            return command;
+    public static int scanUserInputSafely(Scanner scanner) {
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException ime) {
+            System.out.println("Недопустимые данные!");
+            return -1;
         }
     }
 }

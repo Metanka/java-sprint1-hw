@@ -16,7 +16,7 @@ public class StepTracker {
 
     void addNewNumberStepsPerDay() {
         int month = getMonth(scanner);
-        int day = getMonth(scanner);
+        int day = getDay(scanner);
         int steps = getSteps(scanner);
         if (month == 0 || day == 0 || steps == 0) {
             System.out.println("Ошибка ввода данных");
