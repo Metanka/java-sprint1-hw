@@ -21,8 +21,6 @@ public class Main {
             } else {
                 System.out.println("Такой команды не существует.");
             }
-
-
         }
     }
 
